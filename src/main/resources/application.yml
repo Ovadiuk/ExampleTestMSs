@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    active: local
+
+httpTimeout: 35000
+queueTimeout: 20000
+
+publisher-microservice:
+  incomingExchange: event:publish
+  incomingRoutingKey: all
+  outgoingQueue: event:publish:test.d
+
+subscriber-microservice:
+  incomingExchange: event:aftermiddleware
+  incomingRoutingKey: all
+  outgoingQueue: event:aftermiddleware:test.d
+
+---
+
+spring:
+  profiles: local
+  environment: local
+
+  rabbitmq:
+    host: localhost
+    virtual-host: /
+    username: guest
+    password: guest
+
+publisher-microservice:
+  uri: http://127.0.0.1:3301
+
+wire-mock:
+  uri: http://127.0.0.1:9999
